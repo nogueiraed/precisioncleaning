@@ -1,22 +1,55 @@
 //precisioncleaning/FRONTEND/Components/Forms/dwForm
-
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
+import {Button, Form, Col, Row} from 'react-bootstrap'
+
 
 export default function DwForm(props) {
   const [validated, setValidated] = useState(false);
 
+  const getCurrentDate = () => {
+    let date = new Date();
+    let day = String(date.getDate()).padStart(2, '0');
+    let month = String(date.getMonth() + 1).padStart(2, '0');
+    let year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+
   const handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+        setValidated(true);
     }
-    setValidated(true);
+    else{
+      setValidated(false);
+      props.setDwList([...props.dwList, dailyWorkSheet]);
+      props.setShowTable(true); 
+    }
+    
   };
+
+  const [dailyWorkSheet, setDailyWorkSheet] = useState({
+    jobNumber: "",
+    dailyWorksheetDate: getCurrentDate(),
+    site: "",
+    siteManager: "",
+    teamLeader: "",
+    //cleaners: [{ name: "", timeIn: "", timeOut: "" }],
+    contractType: "",
+    workDescription: "",
+    extraProduct: "",
+    poNumber: "",
+  });
+
+  function handleChange(event) {
+    const component = event.currentTarget
+    setDailyWorkSheet({...dailyWorkSheet, [component.name]: component.value});
+  }
+
+
+
 
 
 
@@ -29,7 +62,10 @@ export default function DwForm(props) {
               required
               type="text"
               name="jobNumber"
+              id="jobNumber"
               placeholder="Enter Job Number"
+              value={dailyWorkSheet.jobNumber}
+              onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
               Please enter Job Number.
@@ -41,6 +77,9 @@ export default function DwForm(props) {
               required
               type="date"
               name="dailyWorksheetDate"
+              id="dailyWorksheetDate"
+              value={dailyWorkSheet.dailyWorksheetDate}
+              onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
               Please enter the date.
@@ -52,7 +91,10 @@ export default function DwForm(props) {
               required
               type="text"
               name="site"
+              id="site"
               placeholder="Enter Site"
+              value={dailyWorkSheet.site}
+              onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
               Please enter the site.
@@ -66,7 +108,10 @@ export default function DwForm(props) {
               required
               type="text"
               name="siteManager"
+              id="siteManager"
               placeholder="Enter Site Manager"
+              value={dailyWorkSheet.siteManager}
+              onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
               Please enter the Site Manager.
@@ -78,6 +123,9 @@ export default function DwForm(props) {
               required
               as="select"
               name="teamLeader"
+              id="teamLeader"
+              value={dailyWorkSheet.teamLeader}
+              onChange={handleChange}
             >
               <option value="">Select...</option>
               <option value="Eduardo Nogueira">Eduardo Nogueira</option>
@@ -94,6 +142,9 @@ export default function DwForm(props) {
               required
               as="select"
               name="contractType"
+              id="contractType"
+              value={dailyWorkSheet.contractType}
+              onChange={handleChange}
             >
               <option value="">Select...</option>
               <option value="contract hours">Contract Hours</option>
@@ -112,7 +163,10 @@ export default function DwForm(props) {
               as="textarea"
               rows={5}
               name="workDescription"
+              id="workDescription"
               placeholder="Enter Work Description"
+              value={dailyWorkSheet.workDescription}
+              onChange={handleChange}
             />
           </Form.Group>
         </Row>
@@ -123,7 +177,10 @@ export default function DwForm(props) {
               as="textarea"
               rows={5}
               name="extraProduct"
+              id="extraProduct"
               placeholder="Enter Extra Products"
+              value={dailyWorkSheet.extraProduct}
+              onChange={handleChange}
             />
           </Form.Group>
         </Row>
@@ -134,18 +191,24 @@ export default function DwForm(props) {
               required
               type="text"
               name="poNumber"
-
+              id="poNumber"
               placeholder="Enter PO Number"
+              value={dailyWorkSheet.poNumber}
+              onChange={handleChange}
             />
             <Form.Control.Feedback type="invalid">
               Please enter PO Number.
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
-        <Button type = "submit"> Register</Button>
+        <div className="mb-3 d-flex align-items-center">
+          <Button type = "submit" style={{ backgroundColor: "green", marginRight: "5px"  }}> Register</Button>
+          <Button variant="primary" style={{ backgroundColor: "#003366" }} onClick={() => {
+            props.setShowTable(true);
+          }}>Back</Button>
+        </div>
         <br />
         <br />
-
     </Form>
   );
 }

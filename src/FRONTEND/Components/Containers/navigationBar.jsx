@@ -1,4 +1,4 @@
-//precisioncleaning/FRONTEND/Components/Containers/standarPage
+//precisioncleaning/FRONTEND/Components/Containers/navigationBar
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -7,6 +7,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { LinkContainer } from "react-router-bootstrap";
 
 export default function  NavigationBar(props) {
     return (
@@ -14,10 +15,18 @@ export default function  NavigationBar(props) {
           {[false].map((expand) => (
             <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
               <Container fluid>
-                <Navbar.Brand href="#">Home</Navbar.Brand>
-                <Navbar.Brand href="#">Profiles</Navbar.Brand>
-                <Navbar.Brand href="#">Jobs</Navbar.Brand>
-                <Navbar.Brand href="#">DW</Navbar.Brand>
+                <LinkContainer to="/">  
+                  <Navbar.Brand>Home</Navbar.Brand>
+                </LinkContainer>
+                  
+                <LinkContainer to="/">
+                  <Navbar.Brand>Profiles</Navbar.Brand>
+                </LinkContainer>
+                           
+                <LinkContainer to="/Dw">
+                  <Navbar.Brand href="#">Daily Worksheet</Navbar.Brand>
+                </LinkContainer>
+                
                 <Navbar.Brand href="#">Reports</Navbar.Brand>
                 <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                 <Navbar.Offcanvas
