@@ -24,13 +24,22 @@ export default function DwForm(props) {
     }
     else{
       setValidated(false);
-      props.setDwList([...props.dwList, dailyWorkSheet]);
+      if(!props.editMode){
+        props.setDwList([...props.dwList, dailyWorkSheet]);
+      }
+      else{
+        const position = props.dwList.map(dailyWorkSheet => dailyWorkSheet.jobNumber).indexOf(props.selectedDw.jobNumber);
+        let newDwList = [...props.dwList];
+        newDwList[position] = dailyWorkSheet;
+         props.setDwList(newDwList);
+         
+      }
       props.setShowTable(true); 
     }
     
   };
 
-  const [dailyWorkSheet, setDailyWorkSheet] = useState({
+  const [dailyWorkSheet, setDailyWorkSheet] = useState(props.editMode ? props.selectedDw : {
     jobNumber: "",
     dailyWorksheetDate: getCurrentDate(),
     site: "",
@@ -202,10 +211,21 @@ export default function DwForm(props) {
           </Form.Group>
         </Row>
         <div className="mb-3 d-flex align-items-center">
-          <Button type = "submit" style={{ backgroundColor: "green", marginRight: "5px"  }}> Register</Button>
-          <Button variant="primary" style={{ backgroundColor: "#003366" }} onClick={() => {
-            props.setShowTable(true);
-          }}>Back</Button>
+          <Button type = "submit" 
+                  style={{ backgroundColor: "green", marginRight: "5px"  }}
+                  >
+                  {props.editMode ? "Save Changes" : "Register"} 
+          </Button>
+
+          <Button variant="primary" 
+                  style={{ backgroundColor: "#003366" }} 
+                  onClick={() => {
+                    props.setEditMode(false);
+                    props.setShowTable(true);
+                  }}
+                  >
+                  Back
+          </Button>
         </div>
         <br />
         <br />

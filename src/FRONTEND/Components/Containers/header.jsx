@@ -1,10 +1,12 @@
 //precisioncleaning/FRONTEND/Components/Containers/header
-
-
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import { useContext } from "react";
+import UserContext from '../Contexts/userContext';
 
 export default function Header(props){
+  const [user, setUser] = useContext(UserContext);
+
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
@@ -12,7 +14,7 @@ export default function Header(props){
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text style={{ whiteSpace: 'nowrap' }}>
-            Signed in as: <a href="#login">Mark Otto</a>
+            Signed in as: {user.username} 
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>

@@ -33,7 +33,7 @@ export default function Footer() {
         © 2024 Copyright: {''}
         <span className="mx-0.5"></span> 
         <a className='text-white' href='https://eduardonogueira.co.nz/'>
-            EFN Softwares
+            EFN Solutions
         </a>
       </div>
     </MDBFooter>
